@@ -63,10 +63,9 @@ let s:ruby_deindent_keywords =
 " Regex that defines the start-match for the 'end' keyword.
 "let s:end_start_regex = '\%(^\|[^.]\)\<\%(module\|class\|def\|if\|for\|while\|until\|case\|unless\|begin\|do\)\>'
 " TODO: the do here should be restricted somewhat (only at end of line)?
-let s:end_start_regex = '^\s*\zs\<\%(module\|class\|def\|if\|for' .
-      \ '\|while\|until\|case\|unless\|begin\):\@!\>' .
-      \ '\|\%([=,*/%+-]\|<<\|>>\|:\s\)\s*\zs' .
-      \    '\<\%(if\|for\|while\|until\|case\|unless\|begin\):\@!\>' .
+let s:end_start_regex =
+      \ '\%(^\s*\|[=,*/%+\-|;{]\|<<\|>>\|:\s\)\s*\zs' .
+      \ '\<\%(module\|class\|def\|if\|for\|while\|until\|case\|unless\|begin\):\@!\>' .
       \ '\|\<do:\@!\>'
 
 " Regex that defines the middle-match for the 'end' keyword.
@@ -86,10 +85,10 @@ let s:non_bracket_continuation_regex = '\%([\\.,:*/%+]\|\<and\|\<or\|\%(<%\)\@<!
 " Regex that defines continuation lines.
 " TODO: this needs to deal with if ...: and so on
 let s:continuation_regex =
-      \ '\%([({[\\.,:*/%+]\|\<and\|\<or\|\%(<%\)\@<![=-]\|\W[|&?]\|||\|&&\)\s*\%(#.*\)\=$'
+      \ '\%(%\@<![({[\\.,:*/%+]\|\<and\|\<or\|\%(<%\)\@<![=-]\|\W[|&?]\|||\|&&\)\s*\%(#.*\)\=$'
 
 " Regex that defines bracket continuations
-let s:bracket_continuation_regex = '\%([({[]\)\s*\%(#.*\)\=$'
+let s:bracket_continuation_regex = '%\@<!\%([({[]\)\s*\%(#.*\)\=$'
 
 " Regex that defines blocks.
 "
@@ -101,7 +100,7 @@ let s:bracket_continuation_regex = '\%([({[]\)\s*\%(#.*\)\=$'
 " The reason is that the pipe matches a hanging "|" operator.
 "
 let s:block_regex =
-      \ '\%(\<do:\@!\>\|{\)\s*\%(|\s*(\=\%([*@&]\=\h\w*,\=\s*\)\%(,\s*(\=\s*[*@&]\=\h\w*)\=\)*|\)\=\s*\%(#.*\)\=$'
+      \ '\%(\<do:\@!\>\|%\@<!{\)\s*\%(|\s*(*\s*\%([*@&]\=\h\w*,\=\s*\)\%(,\s*(*\s*[*@&]\=\h\w*\s*)*\s*\)*|\)\=\s*\%(#.*\)\=$'
 
 " 2. Auxiliary Functions {{{1
 " ======================
